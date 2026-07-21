@@ -3,27 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mas_Dar></title> <link rel="manifest" href="manifest.json">
-  
+  <title>MAS DAR</title> 
+  <link rel="manifest" href="manifest.json">
   <style>
     html, body {
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      overflow: hidden !important;
+      margin: 0 !important; padding: 0 !important;
+      width: 100% !important; height: 100% !important;
+      overflow: hidden !important; background-color: #F8FAFF;
+      font-family: sans-serif;
     }
     .full-page-apps-script {
-      position: fixed;
-      top: 0; left: 0; bottom: 0; right: 0;
-      width: 100%; height: 100%;
-      border: none; margin: 0; padding: 0;
-      z-index: 999999;
-      background-color: #F8FAFF;
+      position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+      width: 100%; height: 100%; border: none; margin: 0; padding: 0;
+      z-index: 1; display: none; 
     }
+
+    #splashScreen {
+      position: fixed; inset: 0; z-index: 999999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: linear-gradient(135deg, #4F46E5, #818CF8);
+      color: white; text-align: center;
+    }
+    .btn-masuk {
+      margin-top: 20px; padding: 12px 32px; font-size: 16px; font-weight: bold;
+      border: none; border-radius: 50px; background: #10B981; color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer; transition: 0.2s;
+    }
+    .btn-masuk:active { transform: scale(0.95); }
   </style>
 </head>
 <body>
-  <iframe allowfullscreen="true" class="full-page-apps-script" scrolling="yes" src="https://script.google.com/macros/s/AKfycbwxhzK4RtC7gLsnvLSf0SolLfkUSDRLIzJamPoqJtyEUdQVSQKzNtbh_5Xnr3XDcTmFsw/exec"></iframe>
+
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://dl.dropboxusercontent.com/scl/fi/14hb30r0okqf8eyqg6iql/MUTIARA-SHAUN-THE-SHEEP.mp3?rlkey=rw3c1jpif0nlxe4xugmn75024&st=1dimi5zj&raw=1" type="audio/mpeg">
+    
+  </audio>
+
+  <div id="splashScreen">
+    <h1 style="margin:0; font-size:28px;">MAS DAR</h1>
+    <p style="font-size:14px; opacity:0.9;">Ketuk tombol di bawah untuk masuk</p>
+    <button class="btn-masuk" id="btnMulai">Masuk Aplikasi</button>
+  </div>
+
+  <iframe 
+    id="appIframe"
+    allow="autoplay; clipboard-read; clipboard-write; fullscreen" 
+    class="full-page-apps-script" 
+    src="https://script.google.com/macros/s/AKfycbwxhzK4RtC7gLsnvLSf0SolLfkUSDRLIzJamPoqJtyEUdQVSQKzNtbh_5Xnr3XDcTmFsw/exec">
+  </iframe>
+
+  <script>
+  document.getElementById('btnMulai').addEventListener('click', function() {
+    var audio = document.getElementById('bgMusic');
+    audio.volume = 0.3;
+    audio.play();
+    document.getElementById('splashScreen').style.display = 'none';
+    document.getElementById('appIframe').style.display = 'block';
+  });
+
+  window.addEventListener('message', function(event) {
+    var audio = document.getElementById('bgMusic');
+   
+    if (event.data === 'pauseMusic') {
+      audio.pause();
+    } 
+    else if (event.data === 'playMusic') {
+      audio.play();
+    }
+  });
+</script>
 </body>
 </html>
